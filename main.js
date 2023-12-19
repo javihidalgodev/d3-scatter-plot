@@ -3,9 +3,14 @@ import * as d3 from 'd3'
 
 const dataURL = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json'
 
-const data = await d3.json(dataURL)
+async function getData () {
+  return await d3.json(dataURL)
+}
+
+const data = getData()
 
 if(data) {
+  data.then(data => {
   data.forEach(item => {
     item.Place = +item.Place
     let parsedTime = item.Time.split(':')
@@ -122,7 +127,6 @@ if(data) {
     const seconds = new Date(d.Time).getSeconds()
     const dataYear = e.target.getAttribute('data-xvalue')
   
-    console.log(e.target)
   
     d3.select('#tooltip')
     .attr('data-year', dataYear)
@@ -131,3 +135,4 @@ if(data) {
       .style('transform', `translate(${e.target.cx.baseVal.value + 5}px, ${e.target.cy.baseVal.value}px)`)
   }
 }
+)}
